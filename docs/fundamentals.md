@@ -125,3 +125,14 @@ carMakers.map((car: string): string => {
 // stringまたはDateの配列
 const importantDates: (Date | string)[] = [new Date(), '2030-10-10'];
 ```
+
+# タプル
+
+不可変な配列
+
+```typescript
+type Drink = [string, boolean, number];
+const pepsi: Drink = ['brown', true, 40];
+```
+
+# インターフェース
