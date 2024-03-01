@@ -136,3 +136,85 @@ const pepsi: Drink = ['brown', true, 40];
 ```
 
 # インターフェース
+
+インターフェースなしで関数を作成すると、
+
+```typescript
+const oldCivic = {
+  name: 'civic',
+  year: 2000,
+  broken: true,
+};
+
+const printVehicle = (vehicle: {
+  name: string;
+  year: number;
+  broken: boolean;
+}): void => {
+  console.log(vehicle.name);
+  console.log(vehicle.year);
+  console.log(vehicle.broken);
+};
+
+printVehicle(oldCivic);
+```
+
+インターフェースを使って関数を作成すると、
+
+```typescript
+interface Vehicle {
+  name: string;
+  year: number;
+  broken: boolean;
+}
+
+const oldCivic = {
+  name: 'civic',
+  year: 2000,
+  broken: true,
+};
+
+const printVehicle = (vehicle: Vehicle): void => {
+  console.log(vehicle.name);
+  console.log(vehicle.year);
+  console.log(vehicle.broken);
+};
+
+printVehicle(oldCivic);
+```
+
+# クラス
+
+```typescript
+class Vehicle {
+  drive(): void {
+    console.log('driving');
+  }
+
+  honk(): void {
+    console.log('honk');
+  }
+}
+
+// CarはVehicleを継承する
+class Car extends Vehicle {
+  drive(): void {
+    console.log('car is driving');
+  }
+}
+
+const vehicle = new Vehicle();
+vehicle.drive(); // driving
+const car = new Car();
+car.drive(); // car is driving
+car.honk(); // honk
+```
+
+# プロパティ(メソッド)
+
+- public
+  - いつでも呼ばれる
+- private
+  - クラス内のメソッド内でしか呼ばれない
+- protected
+  - メソッドは
