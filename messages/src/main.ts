@@ -6,6 +6,8 @@ import { MessagesModule } from './messages/messages.module'
 async function bootstrap() {
   const app = await NestFactory.create(MessagesModule)
   app.useGlobalPipes(new ValidationPipe())
+  // extend schemaのドキュメントだと思われる
+  // https://medium.com/@amitgal45/nest-js-open-api-just-saves-so-much-time-part-2-6e64a76f2be7
   const config = new DocumentBuilder()
     .setTitle('Message API Project')
     .setDescription('The message API description')
