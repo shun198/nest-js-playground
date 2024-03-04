@@ -1,19 +1,11 @@
-FRONTEND_PATH = --prefix application
+prepare:
+	docker-compose up -d --build
 
-install:
-	npm install $(FRONTEND_PATH)
-
-run:
-	npm run dev $(FRONTEND_PATH)
-
-update:
-	npm update $(FRONTEND_PATH)
+up:
+	docker-compose up -d
 
 build:
-	npm run build $(FRONTEND_PATH)
+	docker-compose build
 
-test:
-	npm test $(FRONTEND_PATH)
-
-storybook:
-	npm run storybook $(FRONTEND_PATH)
+down:
+	docker-compose down
