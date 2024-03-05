@@ -9,3 +9,6 @@ build:
 
 down:
 	docker-compose down
+
+run:
+	docker-compose exec app npm run start:dev
