@@ -10,10 +10,14 @@ import { Report } from './reports/reports.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'db.sqlite',
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'postgres',
+      database: 'postgres',
       entities: [User, Report],
-      synchronize: true,
+      synchronize: true, // do not use in prod
     }),
     UsersModule,
     ReportsModule,
