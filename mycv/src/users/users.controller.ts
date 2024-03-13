@@ -16,12 +16,16 @@ import { ApiTags, ApiBody, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { HttpCode, NotFoundException } from '@nestjs/common';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { AuthService } from './auth.service';
 
 @ApiTags('users')
 @Controller('users')
 @Serialize(UserDto)
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   @ApiBody({
     schema: {
@@ -38,13 +42,42 @@ export class UsersController {
       },
     },
   })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'ユーザ登録',
+    content: {
+      'application/json': {
+        example: [
+          {
+            id: 1,
+            email: 'test@gmail.com',
+          },
+        ],
+      },
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: '該当するユーザが存在しないとき',
+    content: {
+      'application/json': {
+        example: [
+          {
+            message: 'すでに使用されているメールアドレスです',
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          },
+        ],
+      },
+    },
+  })
   /**
    * ユーザを新規登録するAPI
    * @param body - ユーザの情報
    */
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
-    this.usersService.create(body.email, body.password);
+    return this.authService.signup(body.email, body.password);
   }
 
   @ApiResponse({
@@ -70,7 +103,7 @@ export class UsersController {
           {
             message: '該当するIDを持つユーザが存在しません',
             error: 'Not Found',
-            statusCode: 404,
+            statusCode: HttpStatus.NOT_FOUND,
           },
         ],
       },
@@ -143,7 +176,7 @@ export class UsersController {
           {
             message: '該当するIDを持つユーザが存在しません',
             error: 'Not Found',
-            statusCode: 404,
+            statusCode: HttpStatus.NOT_FOUND,
           },
         ],
       },
@@ -196,7 +229,7 @@ export class UsersController {
           {
             message: '該当するIDを持つユーザが存在しません',
             error: 'Not Found',
-            statusCode: 404,
+            statusCode: HttpStatus.NOT_FOUND,
           },
         ],
       },
