@@ -42,7 +42,7 @@
 # Pipe
 
 - バリデーションを行う
-- Django でいう serializer
+- DRF でいう Serializer
 - 九つの組み込みの Pipe が存在する:
   - ValidationPipe
   - ParseIntPipe
@@ -65,6 +65,8 @@
   - 関数の返り値を変換する
   - 関数から送出された例外を変換する
   - 関数の振る舞いを拡張する(たとえばキャッシュを目的として) 特定の条件に応じて関数をオーバーライドする
+  - DRFのSerializerみたいな動きもできる
+    - Interceptorの方がより汎用的
 
 # 処理の流れ
 
