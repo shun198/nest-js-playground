@@ -1,0 +1,201 @@
+openapi: 3.0.0
+paths:
+  /api/health:
+    get:
+      operationId: AppController_healthCheck
+      parameters: []
+      responses:
+        '200':
+          description: ヘルスチェック成功
+          content:
+            application/json:
+              example:
+                msg: pass
+      tags:
+        - health
+  /api/users/signup:
+    post:
+      operationId: UsersController_createUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  default: test@gmail.com
+                password:
+                  type: string
+                  default: test
+      responses:
+        '201':
+          description: ユーザ登録
+          content:
+            application/json:
+              example:
+                - id: 1
+                  email: test@gmail.com
+        '400':
+          description: 該当するユーザが存在しないとき
+          content:
+            application/json:
+              example:
+                - message: すでに使用されているメールアドレスです
+                  error: Bad Request
+                  statusCode: 400
+      tags: &ref_0
+        - users
+  /api/users/signin:
+    post:
+      operationId: UsersController_signin
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  default: test@gmail.com
+                password:
+                  type: string
+                  default: test
+      responses:
+        '200':
+          description: ログインAPI
+          content:
+            application/json:
+              example:
+                - id: 1
+                  email: test@gmail.com
+        '400':
+          description: メールアドレスまたはパスワードが間違っている時
+          content:
+            application/json:
+              example:
+                - message: メールアドレスもしくはパスワードが間違っています
+                  error: Bad Request
+                  statusCode: 400
+      tags: *ref_0
+  /api/users/{id}:
+    get:
+      operationId: UsersController_findUser
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ユーザ詳細
+          content:
+            application/json:
+              example:
+                - id: 1
+                  email: test@gmail.com
+        '404':
+          description: 該当するユーザが存在しないとき
+          content:
+            application/json:
+              example:
+                - message: 該当するIDを持つユーザが存在しません
+                  error: Not Found
+                  statusCode: 404
+      tags: *ref_0
+    delete:
+      operationId: UsersController_removeUser
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '204':
+          description: ユーザ削除
+          content:
+            application/json:
+              example:
+                - email: test02@gmail.com
+                  password: test
+        '404':
+          description: 該当するユーザが存在しないとき
+          content:
+            application/json:
+              example:
+                - message: 該当するIDを持つユーザが存在しません
+                  error: Not Found
+                  statusCode: 404
+      tags: *ref_0
+    patch:
+      operationId: UsersController_updateUser
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  default: test2@gmail.com
+                password:
+                  type: string
+                  default: test
+      responses:
+        '200':
+          description: ユーザ編集
+          content:
+            application/json:
+              example:
+                - id: 2
+                  email: test2@gmail.com
+        '404':
+          description: 該当するユーザが存在しないとき
+          content:
+            application/json:
+              example:
+                - message: 該当するIDを持つユーザが存在しません
+                  error: Not Found
+                  statusCode: 404
+      tags: *ref_0
+  /api/users:
+    get:
+      operationId: UsersController_findAllUsers
+      parameters:
+        - name: email
+          required: false
+          in: query
+          description: ユーザのメールアドレス(test@gmail.com)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ユーザ一覧
+          content:
+            application/json:
+              example:
+                - id: 1
+                  email: test@gmail.com
+      tags: *ref_0
+info:
+  title: Report API Project
+  description: The Report API description
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas: {}

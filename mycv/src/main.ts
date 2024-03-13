@@ -3,6 +3,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { Request, Response, NextFunction } from 'express';
+import * as fs from 'fs';
+import { dump } from 'js-yaml';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +20,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
+  fs.writeFileSync('./swagger-spec.yaml', dump(document, {}));
   SwaggerModule.setup('api/docs', app, document);
   // Swaggerによるキャッシュ制御を無効にする
   app.use((req: Request, res: Response, next: NextFunction) => {
