@@ -80,6 +80,56 @@ export class UsersController {
     return this.authService.signup(body.email, body.password);
   }
 
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string',
+          default: 'test@gmail.com',
+        },
+        password: {
+          type: 'string',
+          default: 'test',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'ログインAPI',
+    content: {
+      'application/json': {
+        example: [
+          {
+            id: 1,
+            email: 'test@gmail.com',
+          },
+        ],
+      },
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'メールアドレスまたはパスワードが間違っている時',
+    content: {
+      'application/json': {
+        example: [
+          {
+            message: 'メールアドレスもしくはパスワードが間違っています',
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          },
+        ],
+      },
+    },
+  })
+  @HttpCode(HttpStatus.OK)
+  @Post('/signin')
+  signin(@Body() body: CreateUserDto) {
+    return this.authService.signin(body.email, body.password);
+  }
+
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'ユーザ詳細',
