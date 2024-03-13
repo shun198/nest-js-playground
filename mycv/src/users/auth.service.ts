@@ -9,6 +9,7 @@ const scrypt = promisify(_scrypt);
 export class AuthService {
   constructor(private userService: UsersService) {}
 
+  // https://docs.nestjs.com/security/encryption-and-hashing
   async signup(email: string, password: string) {
     const users = await this.userService.find(email);
     if (users.length) {
