@@ -11,6 +11,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.setGlobalPrefix('api');
   const config = new DocumentBuilder()
     .setTitle('Report API Project')
     .setDescription('The Report API description')
