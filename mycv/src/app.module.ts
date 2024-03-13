@@ -7,6 +7,7 @@ import { ReportsModule } from './reports/reports.module';
 import { User } from './users/user.entity';
 import { Report } from './reports/reports.entity';
 
+// https://dev.to/filbraga/api-with-typescript-nest-typeorm-postgres-docker-1m81
 @Module({
   imports: [
     TypeOrmModule.forRoot({
