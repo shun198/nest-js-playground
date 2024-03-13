@@ -13,11 +13,13 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { ApiTags, ApiBody, ApiResponse, ApiQuery } from '@nestjs/swagger';
-import { HttpCode, NotFoundException, UseInterceptors } from '@nestjs/common';
-import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
+import { HttpCode, NotFoundException } from '@nestjs/common';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { UserDto } from './dtos/user.dto';
 
 @ApiTags('users')
 @Controller('users')
+@Serialize(UserDto)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -78,7 +80,6 @@ export class UsersController {
    * ユーザを詳細表示するAPI
    * @param id - ユーザのID
    */
-  @UseInterceptors(SerializeInterceptor)
   @Get('/:id')
   async findUser(@Param('id') id: number) {
     const user = await this.usersService.findOne(id);
@@ -103,7 +104,6 @@ export class UsersController {
           {
             id: 1,
             email: 'test@gmail.com',
-            password: 'test',
           },
         ],
       },
@@ -182,7 +182,6 @@ export class UsersController {
           {
             id: 2,
             email: 'test2@gmail.com',
-            password: 'test',
           },
         ],
       },
