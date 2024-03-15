@@ -5,12 +5,25 @@ import { AppModule } from './app.module';
 import { Request, Response, NextFunction } from 'express';
 import * as fs from 'fs';
 import { dump } from 'js-yaml';
+import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+    }),
+  );
+  // https://github.com/expressjs/session
+  app.use(
+    session({
+      secret: 'my-secret',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        // 1時間（60 × 60 × 1000ミリ秒(1秒)）
+        maxAge: 60 * 60 * 1000,
+      },
     }),
   );
   app.setGlobalPrefix('api');

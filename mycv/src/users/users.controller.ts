@@ -8,6 +8,7 @@ import {
   Param,
   Query,
   HttpStatus,
+  Session,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -17,6 +18,7 @@ import { HttpCode, NotFoundException } from '@nestjs/common';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { User } from './user.entity';
 
 @ApiTags('users')
 @Controller('users')
@@ -76,8 +78,21 @@ export class UsersController {
    * @param body - ユーザの情報
    */
   @Post('/signup')
-  createUser(@Body() body: CreateUserDto) {
-    return this.authService.signup(body.email, body.password);
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(body.email, body.password);
+    session.userId = user.id;
+    return user;
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('/signout')
+  async signOut(@Session() session: any) {
+    session.userId = null;
+  }
+
+  @Get('/user_info')
+  userInfo(@CurrentUser() user: User) {
+    return user;
   }
 
   @ApiBody({
@@ -126,8 +141,11 @@ export class UsersController {
   })
   @HttpCode(HttpStatus.OK)
   @Post('/signin')
-  signin(@Body() body: CreateUserDto) {
-    return this.authService.signin(body.email, body.password);
+  async signin(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
+    session.userId = user.id;
+    console.log(session);
+    return user;
   }
 
   @ApiResponse({

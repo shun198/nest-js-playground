@@ -19,7 +19,8 @@ import { Report } from './reports/reports.entity';
       password: 'postgres',
       database: 'postgres',
       entities: [User, Report],
-      synchronize: true, // do not use in prod
+      // do not use in prod
+      synchronize: true,
     }),
     UsersModule,
     ReportsModule,

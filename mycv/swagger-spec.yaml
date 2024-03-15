@@ -48,6 +48,22 @@ paths:
                   statusCode: 400
       tags: &ref_0
         - users
+  /api/users/signout:
+    post:
+      operationId: UsersController_signOut
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /api/users/user_info:
+    get:
+      operationId: UsersController_userInfo
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
   /api/users/signin:
     post:
       operationId: UsersController_signin
