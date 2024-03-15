@@ -19,6 +19,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @ApiTags('users')
 @Controller('users')
