@@ -9,6 +9,7 @@ import {
   Query,
   HttpStatus,
   Session,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -20,6 +21,7 @@ import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -28,7 +30,7 @@ export class UsersController {
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   @ApiBody({
     schema: {
@@ -217,6 +219,7 @@ export class UsersController {
    * @param email - ユーザのメールアドレス
    */
   @Get()
+  @UseGuards(AuthGuard)
   findAllUsers(@Query('email') email?: string) {
     return this.usersService.find(email);
   }
