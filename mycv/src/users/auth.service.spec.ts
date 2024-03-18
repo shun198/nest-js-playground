@@ -52,10 +52,7 @@ describe('AuthService', () => {
   });
 
   it('すでに使用されたメールアドレスでサインアップした時', async () => {
-    fakeUsersService.find = () =>
-      Promise.resolve([
-        { id: 1, email: 'example.com', password: 'test' } as User,
-      ]);
+    await service.signup('example.com', 'test');
     await expect(service.signup('example.com', 'test')).rejects.toThrow(
       BadRequestException,
     );
@@ -74,10 +71,7 @@ describe('AuthService', () => {
   });
 
   it('間違ったパスワードでサインインした時', async () => {
-    fakeUsersService.find = () =>
-      Promise.resolve([
-        { id: 1, email: 'example.com', password: 'test' } as User,
-      ]);
+    await service.signup('example.com', 'test');
     await expect(
       service.signin('example.com', 'wrong_password'),
     ).rejects.toThrow(BadRequestException);
