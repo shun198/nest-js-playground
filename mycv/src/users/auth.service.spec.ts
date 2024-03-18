@@ -53,4 +53,14 @@ describe('AuthService', () => {
       BadRequestException,
     );
   });
+
+  it('間違ったパスワードでサインインした時', async () => {
+    fakeUsersService.find = () =>
+      Promise.resolve([
+        { id: 1, email: 'example.com', password: 'test' } as User,
+      ]);
+    await expect(
+      service.signin('example.com', 'wrong_password'),
+    ).rejects.toThrow(BadRequestException);
+  });
 });
