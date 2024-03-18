@@ -27,7 +27,9 @@ describe('UsersController', () => {
     };
     fakeAuthService = {
       // signup: () => {},
-      // signin: () => {},
+      signin: (email: string, password: string) => {
+        return Promise.resolve({ id: 1, email, password } as User);
+      },
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -65,5 +67,15 @@ describe('UsersController', () => {
   it('存在しないユーザIDに対してfindUserを実行するとエラーになることを確認する', async () => {
     fakeUsersService.findOne = () => null;
     await expect(controller.findUser(1)).rejects.toThrow(NotFoundException);
+  });
+
+  it('signinメソッドを実行するとsessionオブジェクトが更新され、userオブジェクトを返すことを確認する', async () => {
+    const session = { userId: -1 };
+    const user = await controller.signin(
+      { email: 'example.com', password: 'test' },
+      session,
+    );
+    expect(user.id).toEqual(1);
+    expect(session.userId).toEqual(1);
   });
 });
