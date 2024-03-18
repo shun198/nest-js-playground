@@ -2,14 +2,14 @@ import { Test } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 
 describe('AuthService', () => {
   let service: AuthService;
   let fakeUsersService: Partial<UsersService>;
 
   beforeEach(async () => {
-    const fakeUsersService: Partial<UsersService> = {
+    fakeUsersService = {
       find: () => Promise.resolve([]),
       create: (email: string, password: string) =>
         Promise.resolve({ id: 1, email, password } as User),
@@ -40,8 +40,16 @@ describe('AuthService', () => {
 
   it('すでに使用されたメールアドレスでサインアップした時', async () => {
     fakeUsersService.find = () =>
-      Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
+      Promise.resolve([
+        { id: 1, email: 'example.com', password: 'test' } as User,
+      ]);
     await expect(service.signup('example.com', 'test')).rejects.toThrow(
+      BadRequestException,
+    );
+  });
+
+  it('登録されていないメールアドレスでサインインした時', async () => {
+    await expect(service.signin('not_found_email.com', 'test')).rejects.toThrow(
       BadRequestException,
     );
   });
