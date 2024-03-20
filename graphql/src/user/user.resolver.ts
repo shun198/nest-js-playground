@@ -7,7 +7,7 @@ import { GetUserArgs } from './dto/getUser.args';
 
 @Resolver()
 export class UserResolver {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Mutation(() => UserModel)
   async createUser(
