@@ -1,0 +1,24 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Task {
+  """タスクID"""
+  id: Int!
+
+  """名前"""
+  name: String!
+
+  """日付"""
+  dueDate: String!
+
+  """ステータス"""
+  status: String!
+
+  """詳細"""
+  description: String
+}
+
+type Query {
+  getTasks: [Task]!
+}
