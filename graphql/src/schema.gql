@@ -38,10 +38,24 @@ type Query {
 type Mutation {
   """タスク作成用Mutation"""
   createTask(createTaskInput: CreateTaskInput!): Task!
+
+  """タスク更新用Mutation"""
+  updateTask(updateTaskInput: UpdateTaskInput!): Task!
+
+  """タスク削除用Mutation"""
+  deleteTask(id: Int!): Task!
 }
 
 input CreateTaskInput {
   name: String!
   dueDate: String!
+  description: String
+}
+
+input UpdateTaskInput {
+  id: Int!
+  name: String
+  dueDate: String
+  status: String
   description: String
 }
