@@ -17,7 +17,18 @@ type Task {
 
   """詳細"""
   description: String
+
+  """作成日"""
+  createdAt: DateTime!
+
+  """更新日"""
+  updatedAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Query {
   """タスク取得用Query"""
