@@ -20,5 +20,17 @@ type Task {
 }
 
 type Query {
+  """タスク取得用Query"""
   getTasks: [Task]!
+}
+
+type Mutation {
+  """タスク作成用Mutation"""
+  createTask(createTaskInput: CreateTaskInput!): Task!
+}
+
+input CreateTaskInput {
+  name: String!
+  dueDate: String!
+  description: String
 }
