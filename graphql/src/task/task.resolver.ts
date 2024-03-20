@@ -6,14 +6,16 @@ import { UpdateTaskInput } from './dto/updateTask.input';
 
 @Resolver()
 export class TaskResolver {
-  constructor(private readonly taskService: TaskService) { }
+  constructor(private readonly taskService: TaskService) {}
 
   @Query(() => [TaskModel], {
     nullable: 'items',
     description: 'タスク取得用Query',
   })
-  async getTasks(): Promise<TaskModel[]> {
-    return await this.taskService.getTasks();
+  async getTasks(
+    @Args('userId', { type: () => Int }) userId: number,
+  ): Promise<TaskModel[]> {
+    return await this.taskService.getTasks(userId);
   }
 
   @Mutation(() => TaskModel, { description: 'タスク作成用Mutation' })

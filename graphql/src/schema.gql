@@ -32,7 +32,7 @@ scalar DateTime
 
 type Query {
   """タスク取得用Query"""
-  getTasks: [Task]!
+  getTasks(userId: Int!): [Task]!
 }
 
 type Mutation {
@@ -50,6 +50,7 @@ input CreateTaskInput {
   name: String!
   dueDate: String!
   description: String
+  userId: Int!
 }
 
 input UpdateTaskInput {
