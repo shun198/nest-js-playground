@@ -206,6 +206,43 @@ paths:
                 - id: 1
                   email: test@gmail.com
       tags: *ref_0
+  /api/reports:
+    post:
+      operationId: ReportsController_createReport
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                make:
+                  type: string
+                  default: toyota
+                model:
+                  type: string
+                  default: corolla
+                year:
+                  type: int
+                  default: '1980'
+                mileage:
+                  type: int
+                  default: 100000
+                lng:
+                  type: int
+                  default: 0
+                lat:
+                  type: int
+                  default: 0
+                price:
+                  type: int
+                  default: 500000
+      responses:
+        '201':
+          description: ''
+      tags:
+        - reports
 info:
   title: Report API Project
   description: The Report API description
