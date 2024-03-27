@@ -1,8 +1,21 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Patch,
+  Param,
+} from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ReportsService } from './reports.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
+import { CurrentUser } from '../users/decorators/current-user.decorator';
+import { User } from 'src/users/user.entity';
+import { ReportDto } from './dto/report.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { ApproveReportDto } from './dto/approve-report.dto';
+import { AdminGuard } from 'src/guards/admin.guard';
 
 @ApiTags('reports')
 @Controller('reports')
@@ -46,7 +59,25 @@ export class ReportsController {
   })
   @Post()
   @UseGuards(AuthGuard)
-  createReport(@Body() body: CreateReportDto) {
-    return this.reportsService.create(body);
+  @Serialize(ReportDto)
+  createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
+    return this.reportsService.create(body, user);
+  }
+
+  @Patch('/:id')
+  @UseGuards(AdminGuard)
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        approved: {
+          type: 'boolean',
+          default: 'true',
+        },
+      },
+    },
+  })
+  approveReport(@Param('id') id: string, @Body() body: ApproveReportDto) {
+    return this.reportsService.changeApproval(id, body.approved);
   }
 }

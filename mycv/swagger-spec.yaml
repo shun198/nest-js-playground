@@ -241,8 +241,31 @@ paths:
       responses:
         '201':
           description: ''
-      tags:
+      tags: &ref_1
         - reports
+  /api/reports/{id}:
+    patch:
+      operationId: ReportsController_approveReport
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+                  default: 'true'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_1
 info:
   title: Report API Project
   description: The Report API description
